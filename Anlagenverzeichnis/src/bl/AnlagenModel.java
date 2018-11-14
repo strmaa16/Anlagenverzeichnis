@@ -28,7 +28,9 @@ public class AnlagenModel extends AbstractTableModel
     @Override
     public int getRowCount()
     {
+        System.out.println("dd");
         return this.list.size();
+        
     }
 
     @Override
@@ -248,5 +250,9 @@ public class AnlagenModel extends AbstractTableModel
     {
         return this.list.get(i);
     }
-
+    public static void main(String[] args) {
+        AnlagenModel miau = new AnlagenModel();
+        miau.speichern(new File("anlagenverzeichnis.csv"));
+        miau.laden(new File("anlagenverzeichnis.csv"));
+    }
 }
