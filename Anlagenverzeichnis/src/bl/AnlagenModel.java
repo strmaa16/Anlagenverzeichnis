@@ -28,7 +28,6 @@ public class AnlagenModel extends AbstractTableModel
     @Override
     public int getRowCount()
     {
-        System.out.println("dd");
         return this.list.size();
         
     }
@@ -94,20 +93,20 @@ public class AnlagenModel extends AbstractTableModel
             fr = new FileReader(f);
             br = new BufferedReader(fr);
             String line;
-            while ((line = br.readLine()) != null) {
+            line = br.readLine();
+            line = br.readLine();
+            while (line!=null&&!"Bezeichnung;AK;Inbetr.nahme;ND".equals(line)) {
+                line = line.replace(".", "");
+                line = line.replace(",", ".");
                 String[] tokens = line.split(";");
                 String var1 = tokens[0];
                 double var2 = Double.parseDouble(tokens[1]);
-                LocalDate var3 = LocalDate.parse(tokens[2]);
+                double var3 = Double.parseDouble(tokens[2]);
                 double var4 = Double.parseDouble(tokens[3]);
-                double var5 = Double.parseDouble(tokens[4]);
-                double var6 = Double.parseDouble(tokens[5]);
-                double var7 = Double.parseDouble(tokens[6]);
-                double var8 = Double.parseDouble(tokens[7]);
-                double var9 = Double.parseDouble(tokens[8]);
-                Anlage aNeu = new Anlage(var1, var2, var3, var4, var5, var6, var7, var8,var9);
+                Anlage aNeu = new Anlage(var1, var2, var3, var4);
                 list.add(aNeu);
-                
+                line = br.readLine();
+                System.out.println(line);
             }
         }
         catch (FileNotFoundException ex)
@@ -117,7 +116,10 @@ public class AnlagenModel extends AbstractTableModel
         catch (IOException ex)
         {
             System.err.printf("Es funktionier nicht", ex);
-        } 
+        }
+        catch (Exception e){
+            System.out.println("Hallo");
+        }
         
     
      
@@ -137,7 +139,7 @@ public class AnlagenModel extends AbstractTableModel
                 bw.append(COMMA);
                 bw.append(list.get(i).getAk()+"");
                 bw.append(COMMA);
-                bw.append(list.get(i).getDatumAsString());
+                bw.append(list.get(i).getDatum()+"");
                 bw.append(COMMA);
                 bw.append(list.get(i).getNd()+"");
                 bw.append(COMMA);
@@ -179,7 +181,7 @@ public class AnlagenModel extends AbstractTableModel
 
             String abschreibung = aAlt.getAbschreibung();
             double ak = aAlt.getAk();
-            LocalDate datum = aAlt.getDatum();
+            double datum = aAlt.getDatum();
             double nd = aAlt.getNd();
             double bisherND = aAlt.getBisherND();
             double afa = aAlt.getAfa();
@@ -199,7 +201,7 @@ public class AnlagenModel extends AbstractTableModel
                     ak = Double.parseDouble((String) o);
                     break;
                 case DATUM:
-                    datum = LocalDate.parse((String) o);
+                    datum = Double.parseDouble((String) o);
                     break;
                 case ND:
                     nd = Double.parseDouble((String) o);
@@ -250,9 +252,5 @@ public class AnlagenModel extends AbstractTableModel
     {
         return this.list.get(i);
     }
-    public static void main(String[] args) {
-        AnlagenModel miau = new AnlagenModel();
-        miau.speichern(new File("anlagenverzeichnis.csv"));
-        miau.laden(new File("anlagenverzeichnis.csv"));
-    }
+
 }
