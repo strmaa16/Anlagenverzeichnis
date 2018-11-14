@@ -8,15 +8,15 @@ import java.time.format.DateTimeFormatter;
  */
 public class Anlage 
 {
-   private String abschreibung;
-   private double ak;
-   private LocalDate datum;
-   private double nd;
-   private double bisherND;
-   private double afa;
-   private double afaVorher;
-   private double afaJahr;
-   private double bw;
+   private final String abschreibung;
+   private final double ak;
+   private final LocalDate datum;
+   private final double nd;
+   private final double bisherND;
+   private final double afa;
+   private final double afaVorher;
+   private final double afaJahr;
+   private final double bw;
 
    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
    
